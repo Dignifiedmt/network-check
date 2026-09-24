@@ -41,7 +41,7 @@ If you prefer setting up manually without the blueprint:
    - **Name:** `networkcheck`
    - **Region:** Frankfurt (EU Central) or closest region
    - **Runtime:** `Node`
-   - **Build Command:** `npm install && npm run build`
+   - **Build Command:** `npm install --legacy-peer-deps && npm run build`
    - **Start Command:** `npm start`
    - **Plan:** **Free ($0/month)**
 
