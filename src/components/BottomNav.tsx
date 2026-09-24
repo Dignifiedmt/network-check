@@ -13,20 +13,24 @@ interface BottomNavProps {
   currentTab: string;
   setCurrentTab: (tab: string) => void;
   onOpenUssd: () => void;
+  isAdmin?: boolean;
 }
 
 export const BottomNav: React.FC<BottomNavProps> = ({
   currentTab,
   setCurrentTab,
   onOpenUssd,
+  isAdmin = false,
 }) => {
-  const tabs = [
+  const allTabs = [
     { id: 'landing', label: 'Home', icon: Signal },
     { id: 'mobile-users', label: 'Mobile Hub', icon: Smartphone, highlight: true },
     { id: 'banks', label: 'Banks', icon: Landmark },
-    { id: 'dashboard', label: 'Overview', icon: BarChart3 },
+    { id: 'dashboard', label: 'Overview', icon: BarChart3, adminOnly: true },
     { id: 'reports', label: 'Reports', icon: FileText },
   ];
+
+  const tabs = allTabs.filter(tab => !tab.adminOnly || isAdmin);
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-1.5 px-2">

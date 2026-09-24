@@ -209,6 +209,9 @@ InvalidState,Chikun,MTN,SuperAwesome,Good,Good,NCC Q1,Official,https://ncc.gov.n
 
     const token = generateToken({ id: admin.id, email: admin.email, role: admin.role });
     assert(token && token.split('.').length === 3, 'Should generate valid 3-part JWT');
+
+    const overview = await db.getAnalyticsOverview();
+    assert(overview && typeof overview.totalReports === 'number', 'Analytics overview metrics accessible to admin');
   });
 
   // 9. SMS Service Simulation & Masking

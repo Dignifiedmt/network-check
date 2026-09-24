@@ -227,7 +227,7 @@ apiRouter.get('/reports/:id', async (req: Request, res: Response) => {
 // 4. ANALYTICS & AI INSIGHTS
 // ==========================================
 
-apiRouter.get('/analytics/overview', async (req: Request, res: Response) => {
+apiRouter.get('/analytics/overview', requireAdminAuth as any, async (req: Request, res: Response) => {
   try {
     const overview = await db.getAnalyticsOverview();
     res.json({ overview });

@@ -24,6 +24,8 @@ interface NavbarProps {
   setCurrentTab: (tab: string) => void;
   onOpenUssd: () => void;
   onOpenSms: () => void;
+  isAdmin?: boolean;
+  onLogout?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -31,19 +33,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   setCurrentTab,
   onOpenUssd,
   onOpenSms,
+  isAdmin = false,
+  onLogout,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const token = getAdminToken();
+  const effectiveIsAdmin = isAdmin || !!token;
 
   const handleLogout = () => {
     clearAdminToken();
-    window.location.reload();
+    if (onLogout) {
+      onLogout();
+    } else {
+      window.location.reload();
+    }
   };
 
-  const navLinks = [
+  const allNavLinks = [
     { id: 'landing', label: 'Home', icon: Signal },
     { id: 'mobile-users', label: 'Mobile Hub', icon: Smartphone },
-    { id: 'dashboard', label: 'Overview', icon: BarChart3 },
+    { id: 'dashboard', label: 'Overview', icon: BarChart3, adminOnly: true },
     { id: 'banks', label: 'Bank Networks', icon: Landmark },
     { id: 'reports', label: 'Reports', icon: FileText },
     { id: 'areas', label: 'Area Analysis', icon: MapPin },
@@ -51,6 +60,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'sources', label: 'Data Sources', icon: Database },
     { id: 'ai-insights', label: 'AI Insights', icon: Sparkles },
   ];
+
+  const navLinks = allNavLinks.filter(link => !link.adminOnly || effectiveIsAdmin);
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
@@ -96,7 +107,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }`}
                 >
                   <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />
-                  {link.label}
+                  <span>{link.label}</span>
+                  {link.id === 'dashboard' && (
+                    <span className="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-1.5 py-0.5 rounded-full border border-emerald-300 uppercase tracking-wider">
+                      Admin
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -179,7 +195,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 }`}
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />
-                {link.label}
+                <span className="flex-1 text-left">{link.label}</span>
+                {link.id === 'dashboard' && (
+                  <span className="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-1.5 py-0.5 rounded-full border border-emerald-300 uppercase tracking-wider">
+                    Admin
+                  </span>
+                )}
               </button>
             );
           })}

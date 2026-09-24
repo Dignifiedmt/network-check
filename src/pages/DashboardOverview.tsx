@@ -10,30 +10,65 @@ import {
   Phone,
   Signal,
   CheckCircle2,
+  Lock,
+  ShieldAlert,
+  ShieldCheck,
+  ArrowRight,
+  Home,
 } from 'lucide-react';
-import { fetchAnalyticsOverview } from '../services/apiClient';
+import {
+  fetchAnalyticsOverview,
+  getAdminToken,
+  setAdminToken,
+  adminLogin,
+} from '../services/apiClient';
 import { AnalyticsOverview } from '../types';
 import { SourceBadge } from '../components/SourceBadge';
 
 interface DashboardOverviewProps {
   onNavigateReports: () => void;
   onOpenUssd: () => void;
+  isAdmin?: boolean;
+  onAdminLoginSuccess?: () => void;
+  onNavigateHome?: () => void;
 }
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   onNavigateReports,
   onOpenUssd,
+  isAdmin = false,
+  onAdminLoginSuccess,
+  onNavigateHome,
 }) => {
   const [data, setData] = useState<AnalyticsOverview | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState(false);
+
+  // Quick inline admin login form
+  const [email, setEmail] = useState('admin@networkcheck.ng');
+  const [password, setPassword] = useState('admin_secure_password_2026');
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const loadData = async () => {
+    const token = getAdminToken();
+    if (!token && !isAdmin) {
+      setAuthError(true);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
+    setAuthError(false);
     try {
       const overview = await fetchAnalyticsOverview();
       setData(overview);
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      if (e.message === 'ADMIN_AUTH_REQUIRED') {
+        setAuthError(true);
+      } else {
+        console.error(e);
+      }
     } finally {
       setLoading(false);
     }
@@ -41,7 +76,128 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [isAdmin]);
+
+  const handleInlineLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginLoading(true);
+    setLoginError(null);
+    try {
+      const res = await adminLogin(email, password);
+      if (res.success && res.token) {
+        setAdminToken(res.token);
+        setAuthError(false);
+        if (onAdminLoginSuccess) {
+          onAdminLoginSuccess();
+        }
+        await loadData();
+      } else {
+        setLoginError(res.error || 'Invalid administrator credentials');
+      }
+    } catch (err: any) {
+      setLoginError('Authentication failed: ' + err.message);
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // If not authenticated, render restricted access screen
+  const token = getAdminToken();
+  if (authError || (!token && !isAdmin)) {
+    return (
+      <div className="max-w-lg mx-auto py-12 px-4">
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 sm:p-8 space-y-6">
+          <div className="text-center space-y-3">
+            <div className="w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto shadow-xs border border-amber-200">
+              <ShieldAlert className="w-8 h-8 text-amber-700" />
+            </div>
+            <div>
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 text-rose-800 uppercase tracking-wider mb-2">
+                Restricted Access
+              </span>
+              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                Administrator Overview
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-sm mx-auto">
+              Only authorized administrators and regulators have access to view the Community Connectivity Intelligence overview, live outage failure rates, and incident telemetry.
+            </p>
+          </div>
+
+          {/* Quick Demo Credentials Card */}
+          <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs space-y-1.5">
+            <div className="flex items-center justify-between font-bold text-emerald-900">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                Default Admin Credentials
+              </span>
+              <span className="text-[10px] bg-emerald-200/80 px-2 py-0.5 rounded-full font-mono">
+                Auto-fill
+              </span>
+            </div>
+            <div className="bg-white/80 p-2 rounded-xl border border-emerald-200/80 font-mono text-[11px] text-slate-800 space-y-0.5">
+              <div>Email: <strong className="text-emerald-950 font-bold">admin@networkcheck.ng</strong></div>
+              <div>Pass: <strong className="text-emerald-950 font-bold">admin_secure_password_2026</strong></div>
+            </div>
+          </div>
+
+          {loginError && (
+            <div className="p-3 bg-red-50 border border-red-300 rounded-xl text-xs text-red-900 flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+              <span>{loginError}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleInlineLogin} className="space-y-3.5 text-xs sm:text-sm">
+            <div>
+              <label className="block font-semibold text-slate-700 mb-1">Admin Email</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-emerald-600 text-xs sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block font-semibold text-slate-700 mb-1">Password</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-emerald-600 text-xs sm:text-sm"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loginLoading}
+              className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-xs"
+            >
+              <Lock className="w-4 h-4" />
+              <span>{loginLoading ? 'Authenticating...' : 'Sign In to Unlock Overview'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </form>
+
+          {onNavigateHome && (
+            <div className="pt-2 border-t border-slate-100 text-center">
+              <button
+                type="button"
+                onClick={onNavigateHome}
+                className="text-xs text-slate-500 hover:text-slate-800 font-semibold inline-flex items-center gap-1.5 transition"
+              >
+                <Home className="w-3.5 h-3.5" />
+                <span>Return to Public Homepage</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (loading && !data) {
     return (

@@ -14,11 +14,24 @@ import { BankNetworkPage } from './pages/BankNetworkPage';
 import { MobileHubPage } from './pages/MobileHubPage';
 import { UssdSimulatorModal } from './components/UssdSimulatorModal';
 import { SmsOutboxModal } from './components/SmsOutboxModal';
+import { getAdminToken, clearAdminToken } from './services/apiClient';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('landing');
   const [isUssdOpen, setIsUssdOpen] = useState(false);
   const [isSmsOpen, setIsSmsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => !!getAdminToken());
+
+  const handleLogout = () => {
+    clearAdminToken();
+    setIsAdmin(false);
+    setCurrentTab('landing');
+  };
+
+  const handleLoginSuccess = () => {
+    setIsAdmin(true);
+    setCurrentTab('dashboard');
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emerald-100 selection:text-emerald-900 pb-16 lg:pb-0">
@@ -28,6 +41,8 @@ export default function App() {
         setCurrentTab={setCurrentTab}
         onOpenUssd={() => setIsUssdOpen(true)}
         onOpenSms={() => setIsSmsOpen(true)}
+        isAdmin={isAdmin}
+        onLogout={handleLogout}
       />
 
       {/* Main Content Area */}
@@ -37,6 +52,7 @@ export default function App() {
             onExploreDashboard={() => setCurrentTab('dashboard')}
             onOpenUssd={() => setIsUssdOpen(true)}
             onOpenSms={() => setIsSmsOpen(true)}
+            isAdmin={isAdmin}
           />
         )}
 
@@ -46,6 +62,9 @@ export default function App() {
               <DashboardOverview
                 onNavigateReports={() => setCurrentTab('reports')}
                 onOpenUssd={() => setIsUssdOpen(true)}
+                isAdmin={isAdmin}
+                onAdminLoginSuccess={() => setIsAdmin(true)}
+                onNavigateHome={() => setCurrentTab('landing')}
               />
             )}
 
@@ -72,7 +91,7 @@ export default function App() {
             {currentTab === 'ai-insights' && <AiInsightsPage />}
 
             {currentTab === 'login' && (
-              <LoginPage onLoginSuccess={() => setCurrentTab('dashboard')} />
+              <LoginPage onLoginSuccess={handleLoginSuccess} />
             )}
           </div>
         )}
@@ -83,6 +102,7 @@ export default function App() {
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onOpenUssd={() => setIsUssdOpen(true)}
+        isAdmin={isAdmin}
       />
 
       {/* Footer */}

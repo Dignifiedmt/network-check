@@ -12,6 +12,7 @@ import {
   MessageSquare,
   Sparkles,
   BarChart2,
+  Lock,
 } from 'lucide-react';
 import { fetchStates, fetchLgas, fetchBaselineComparison, submitReport } from '../services/apiClient';
 import { StateItem, LgaItem } from '../types';
@@ -21,12 +22,14 @@ interface LandingPageProps {
   onExploreDashboard: () => void;
   onOpenUssd: () => void;
   onOpenSms: () => void;
+  isAdmin?: boolean;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({
   onExploreDashboard,
   onOpenUssd,
   onOpenSms,
+  isAdmin = false,
 }) => {
   // Quick Area Checker State
   const [states, setStates] = useState<StateItem[]>([]);
@@ -166,8 +169,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 onClick={onExploreDashboard}
                 className="w-full sm:w-auto px-6 py-3.5 bg-white hover:bg-slate-100 text-slate-800 font-semibold rounded-xl border border-slate-300 shadow-xs transition flex items-center justify-center gap-2 text-sm"
               >
-                <BarChart2 className="w-4 h-4 text-slate-500" />
-                <span>Explore Admin Dashboard</span>
+                {isAdmin ? (
+                  <>
+                    <BarChart2 className="w-4 h-4 text-emerald-700" />
+                    <span>View Admin Overview</span>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded uppercase">
+                      Admin
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-4 h-4 text-amber-600" />
+                    <span>Admin Overview (Sign In)</span>
+                  </>
+                )}
               </button>
 
               <a

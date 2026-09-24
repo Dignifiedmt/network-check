@@ -111,7 +111,15 @@ export async function fetchReports(filters?: {
 }
 
 export async function fetchAnalyticsOverview(): Promise<AnalyticsOverview> {
-  const res = await fetch(`${API_BASE}/analytics/overview`);
+  const token = getAdminToken();
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  const res = await fetch(`${API_BASE}/analytics/overview`, { headers });
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('ADMIN_AUTH_REQUIRED');
+  }
   const data = await res.json();
   return data.overview;
 }
