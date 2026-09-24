@@ -1,33 +1,32 @@
-# Deploying NetworkCheck to Render 🚀
+# Deploying NetworkCheck to Render (100% Completely Free Tier) 🚀
 
-This guide explains how to deploy **NetworkCheck Nigeria** to [Render](https://render.com) using either the **Render Blueprint (Infrastructure as Code)** or manual configuration via the Render Web Dashboard.
-
----
-
-## 🌟 Why Render?
-
-- **Zero-Friction Full-Stack Deployment:** Runs the Express.js API, Vite React frontend, and Africa's Talking USSD/SMS callbacks within a single service.
-- **Automated HTTPS & SSL:** Custom domains and `.onrender.com` subdomains come with automatic Let's Encrypt SSL certificates.
-- **Built-In Free PostgreSQL:** Render provides managed PostgreSQL databases that automatically inject `DATABASE_URL`.
-- **Zero-Config Fallback:** If you don't attach PostgreSQL, NetworkCheck automatically runs in in-memory `DEMO_MODE=true` with no database setup required.
+This guide explains how to deploy **NetworkCheck Nigeria** to [Render](https://render.com) completely free ($0/month, **no payment method or credit card required**) using either the **Render Blueprint (`render.yaml`)** or manual web service creation.
 
 ---
 
-## 📋 Option 1: Automated Blueprint Deployment (Recommended)
+## 🌟 100% Free Tier ($0 / month)
 
-NetworkCheck includes a production-ready `render.yaml` blueprint.
+- **Zero Cost & No Credit Card Needed:** The blueprint uses Render's free tier (`plan: free`).
+- **Built-in In-Memory Database:** NetworkCheck has a pre-seeded, high-performance in-memory persistence layer with all Nigerian states, LGAs, operators, baseline datasets, and admin credentials pre-loaded. You do NOT need to buy or provision a paid database.
+- **Optional External Database:** If you ever want external persistence later, you can connect a free PostgreSQL instance from Supabase, Neon, or Railway simply by pasting `DATABASE_URL` into environment variables.
+- **Automated HTTPS & SSL:** Free `.onrender.com` subdomain with automated SSL.
+
+---
+
+## 📋 Option 1: 1-Click Free Blueprint Deployment (Zero Cost)
+
+NetworkCheck includes a production-ready, completely free `render.yaml` blueprint:
 
 1. **Push your repository** to GitHub or GitLab.
 2. Sign in to your [Render Dashboard](https://dashboard.render.com).
 3. Click **New +** and select **Blueprint**.
-4. Connect your Git repository containing `render.yaml`.
-5. Render will detect the blueprint and automatically configure:
-   - **Web Service:** `networkcheck` (Node.js runtime, build: `npm ci && npm run build`, start: `npm start`).
-   - **PostgreSQL Database:** `networkcheck-db` (Free tier).
-   - **Auto-generated Secrets:** `JWT_SECRET` and `NDPR_SALT`.
+4. Connect your repository containing `render.yaml`.
+5. Render will automatically configure:
+   - **Web Service:** `networkcheck` (Plan: **Free**, runtime: Node.js, command: `npm start`).
+   - **Auto-generated Secrets:** `JWT_SECRET` and `NDPR_SALT` (generated for free).
    - **Health Check Endpoint:** `/health`.
-6. Enter any secret environment variables (e.g. `AFRICASTALKING_API_KEY`, `GEMINI_API_KEY`) when prompted.
-7. Click **Apply**. Render will provision your database and deploy your full-stack web service.
+   - **Pre-configured Environment:** Africa's Talking API key, USSD code (`*384*20220#`), SMS code (`22220`), and admin credentials.
+6. Click **Apply**. Render will deploy your service with **$0 payment required**.
 
 ---
 
@@ -40,11 +39,11 @@ If you prefer setting up manually without the blueprint:
 2. Select your GitHub repository.
 3. Configure the settings:
    - **Name:** `networkcheck`
-   - **Region:** Frankfurt (EU Central) or closest to Nigeria
+   - **Region:** Frankfurt (EU Central) or closest region
    - **Runtime:** `Node`
    - **Build Command:** `npm install --include=dev && npm run build`
    - **Start Command:** `npm start`
-   - **Plan:** Free or Starter
+   - **Plan:** **Free ($0/month)**
 
 ### Step 2: Configure Environment Variables
 In the **Environment** tab, add the following variables:

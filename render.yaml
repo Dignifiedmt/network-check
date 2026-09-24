@@ -1,4 +1,5 @@
 # Render Blueprint (Infrastructure as Code) for NetworkCheck Nigeria
+# 100% Completely Free Tier ($0/month - No credit card required)
 # https://render.com/docs/blueprint-spec
 
 version: "1"
@@ -8,7 +9,7 @@ services:
   - type: web
     name: networkcheck
     runtime: node
-    plan: starter
+    plan: free # 100% Free Tier ($0 / month)
     region: frankfurt # Low-latency region for Nigerian and European traffic
     buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
@@ -21,7 +22,7 @@ services:
         value: 10000
       - key: DEMO_MODE
         value: "true"
-      # Africa's Talking Telecom Credentials (Set in Render Dashboard)
+      # Africa's Talking Telecom Credentials
       - key: AFRICASTALKING_USERNAME
         value: sandbox
       - key: AT_USERNAME
@@ -38,7 +39,7 @@ services:
         value: NetworkChk
       - key: AT_SENDER_ID
         value: NetworkChk
-      # Google Gemini API Key for Multilingual NLP
+      # Google Gemini API Key for Multilingual NLP (Optional)
       - key: GEMINI_API_KEY
         sync: false
       # Administrator Credentials & Security
@@ -46,21 +47,12 @@ services:
         value: admin@networkcheck.ng
       - key: ADMIN_DEFAULT_PASSWORD
         value: admin_secure_password_2026
-      # Security Keys (Auto-generated on Render)
+      # Security Keys (Auto-generated on Render at zero cost)
       - key: JWT_SECRET
         generateValue: true
       - key: NDPR_SALT
         generateValue: true
-      # Attached PostgreSQL Database (Optional; falls back to in-memory store if unset)
+      # Optional external database URL (e.g. Supabase, Neon) - In-memory store powers the app for free if unset
       - key: DATABASE_URL
-        fromDatabase:
-          name: networkcheck-db
-          property: connectionString
+        sync: false
 
-databases:
-  # Managed PostgreSQL for persistent reports and regulatory audit records
-  - name: networkcheck-db
-    databaseName: networkcheck
-    user: networkcheck_user
-    plan: free
-    region: frankfurt
