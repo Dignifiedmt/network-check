@@ -1,32 +1,32 @@
 # Deploying NetworkCheck to Render (100% Completely Free Tier) 🚀
 
-This guide explains how to deploy **NetworkCheck Nigeria** to [Render](https://render.com) completely free ($0/month, **no payment method or credit card required**) using either the **Render Blueprint (`render.yaml`)** or manual web service creation.
+This guide explains how to deploy **NetworkCheck Nigeria** to [Render](https://render.com) completely free ($0/month, **no payment method or credit card required**) using either the **Render Blueprint (`render.yaml` / `render.yml`)** or manual web service creation.
 
 ---
 
-## 🌟 100% Free Tier ($0 / month)
+## 🌟 100% Free Tier ($0 / month) — Eliminating Paid Hosting & Credit Cards
 
-- **Zero Cost & No Credit Card Needed:** The blueprint uses Render's free tier (`plan: free`).
-- **Built-in In-Memory Database:** NetworkCheck has a pre-seeded, high-performance in-memory persistence layer with all Nigerian states, LGAs, operators, baseline datasets, and admin credentials pre-loaded. You do NOT need to buy or provision a paid database.
-- **Optional External Database:** If you ever want external persistence later, you can connect a free PostgreSQL instance from Supabase, Neon, or Railway simply by pasting `DATABASE_URL` into environment variables.
-- **Automated HTTPS & SSL:** Free `.onrender.com` subdomain with automated SSL.
+- **Zero Cost & No Credit Card Needed:** Both `render.yaml` and `render.yml` specify Render's free tier (`plan: free`).
+- **Eliminated Paid Managed Database Requirement:** NetworkCheck includes an enterprise-grade in-memory persistence layer with all Nigerian states, LGAs, operators, baseline datasets, and admin credentials pre-loaded. Render will NOT ask you to purchase or configure a paid database.
+- **Optional External Database (Free):** If you ever want external persistence later, you can connect a free PostgreSQL instance from Supabase, Neon, or Railway simply by pasting `DATABASE_URL` into environment variables at $0 cost.
+- **Automated HTTPS & SSL:** Free `.onrender.com` subdomain with automated Let's Encrypt SSL.
 
 ---
 
 ## 📋 Option 1: 1-Click Free Blueprint Deployment (Zero Cost)
 
-NetworkCheck includes a production-ready, completely free `render.yaml` blueprint:
+NetworkCheck provides dual blueprint definitions (`render.yaml` and `render.yml`) at the root of the repository:
 
 1. **Push your repository** to GitHub or GitLab.
 2. Sign in to your [Render Dashboard](https://dashboard.render.com).
 3. Click **New +** and select **Blueprint**.
-4. Connect your repository containing `render.yaml`.
-5. Render will automatically configure:
-   - **Web Service:** `networkcheck` (Plan: **Free**, runtime: Node.js, command: `npm start`).
-   - **Auto-generated Secrets:** `JWT_SECRET` and `NDPR_SALT` (generated for free).
+4. Connect your repository. Render will automatically detect `render.yaml` or `render.yml`.
+5. Render will display the resources to create:
+   - **Web Service:** `networkcheck` (Plan: **Free**, runtime: Node 20+, command: `npm start`).
+   - **Auto-generated Secrets:** `JWT_SECRET` and `NDPR_SALT` (generated automatically at zero cost).
    - **Health Check Endpoint:** `/health`.
-   - **Pre-configured Environment:** Africa's Talking API key, USSD code (`*384*20220#`), SMS code (`22220`), and admin credentials.
-6. Click **Apply**. Render will deploy your service with **$0 payment required**.
+   - **Pre-configured Telecom & Auth:** Africa's Talking Sandbox key, USSD code (`*384*20220#`), SMS code (`22220`), and admin credentials.
+6. Click **Apply**. Render will deploy your service with **$0 payment and no credit card required**.
 
 ---
 
@@ -41,7 +41,7 @@ If you prefer setting up manually without the blueprint:
    - **Name:** `networkcheck`
    - **Region:** Frankfurt (EU Central) or closest region
    - **Runtime:** `Node`
-   - **Build Command:** `npm install --include=dev && npm run build`
+   - **Build Command:** `npm install && npm run build`
    - **Start Command:** `npm start`
    - **Plan:** **Free ($0/month)**
 
@@ -50,21 +50,23 @@ In the **Environment** tab, add the following variables:
 
 | Key | Value / Instructions |
 |---|---|
+| `NODE_VERSION` | `20.18.0` |
 | `NODE_ENV` | `production` |
 | `PORT` | `10000` (Render binds this port automatically) |
-| `DEMO_MODE` | `true` (or `false` when PostgreSQL is connected) |
-| `DATABASE_URL` | Optional PostgreSQL connection string (auto-filled if blueprint is used) |
-| `GEMINI_API_KEY` | Your Google AI Studio Gemini API Key |
-| `AFRICASTALKING_USERNAME` | `sandbox` (or your live AT username) |
+| `DEMO_MODE` | `true` |
+| `AFRICASTALKING_USERNAME` | `sandbox` |
 | `AFRICASTALKING_API_KEY` | `atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8` |
 | `AT_API_KEY` | `atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8` |
 | `AT_USSD_SERVICE_CODE` | `*384*20220#` |
 | `AT_SMS_SHORT_CODE` | `22220` |
 | `AFRICASTALKING_SENDER_ID`| `NetworkChk` |
+| `AT_SENDER_ID` | `NetworkChk` |
 | `ADMIN_DEFAULT_EMAIL` | `admin@networkcheck.ng` |
 | `ADMIN_DEFAULT_PASSWORD` | `admin_secure_password_2026` |
 | `JWT_SECRET` | Any strong 32+ character random string |
 | `NDPR_SALT` | Any strong cryptographic salt string |
+| `GEMINI_API_KEY` | (Optional) Your Google Gemini API Key |
+| `DATABASE_URL` | (Optional) External PostgreSQL connection string |
 
 ### Step 3: Health Checks
 Under **Advanced Settings**:
