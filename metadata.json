@@ -1,0 +1,8 @@
+{
+  "name": "Remix NetworkCheck - Nigeria Telecom Connectivity \u0026 USSD Reporting",
+  "description": "USSD/SMS-based connectivity information and community reporting service for Nigerian mobile networks with administrative analytics dashboard and NCC baseline intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

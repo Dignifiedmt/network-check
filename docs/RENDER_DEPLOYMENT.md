@@ -1,0 +1,130 @@
+# Deploying NetworkCheck to Render 🚀
+
+This guide explains how to deploy **NetworkCheck Nigeria** to [Render](https://render.com) using either the **Render Blueprint (Infrastructure as Code)** or manual configuration via the Render Web Dashboard.
+
+---
+
+## 🌟 Why Render?
+
+- **Zero-Friction Full-Stack Deployment:** Runs the Express.js API, Vite React frontend, and Africa's Talking USSD/SMS callbacks within a single service.
+- **Automated HTTPS & SSL:** Custom domains and `.onrender.com` subdomains come with automatic Let's Encrypt SSL certificates.
+- **Built-In Free PostgreSQL:** Render provides managed PostgreSQL databases that automatically inject `DATABASE_URL`.
+- **Zero-Config Fallback:** If you don't attach PostgreSQL, NetworkCheck automatically runs in in-memory `DEMO_MODE=true` with no database setup required.
+
+---
+
+## 📋 Option 1: Automated Blueprint Deployment (Recommended)
+
+NetworkCheck includes a production-ready `render.yaml` blueprint.
+
+1. **Push your repository** to GitHub or GitLab.
+2. Sign in to your [Render Dashboard](https://dashboard.render.com).
+3. Click **New +** and select **Blueprint**.
+4. Connect your Git repository containing `render.yaml`.
+5. Render will detect the blueprint and automatically configure:
+   - **Web Service:** `networkcheck` (Node.js runtime, build: `npm ci && npm run build`, start: `npm start`).
+   - **PostgreSQL Database:** `networkcheck-db` (Free tier).
+   - **Auto-generated Secrets:** `JWT_SECRET` and `NDPR_SALT`.
+   - **Health Check Endpoint:** `/health`.
+6. Enter any secret environment variables (e.g. `AFRICASTALKING_API_KEY`, `GEMINI_API_KEY`) when prompted.
+7. Click **Apply**. Render will provision your database and deploy your full-stack web service.
+
+---
+
+## 🛠️ Option 2: Manual Web Service Setup on Render
+
+If you prefer setting up manually without the blueprint:
+
+### Step 1: Create the Web Service
+1. In Render, click **New +** &rarr; **Web Service**.
+2. Select your GitHub repository.
+3. Configure the settings:
+   - **Name:** `networkcheck`
+   - **Region:** Frankfurt (EU Central) or closest to Nigeria
+   - **Runtime:** `Node`
+   - **Build Command:** `npm install --include=dev && npm run build`
+   - **Start Command:** `npm start`
+   - **Plan:** Free or Starter
+
+### Step 2: Configure Environment Variables
+In the **Environment** tab, add the following variables:
+
+| Key | Value / Instructions |
+|---|---|
+| `NODE_ENV` | `production` |
+| `PORT` | `10000` (Render binds this port automatically) |
+| `DEMO_MODE` | `true` (or `false` when PostgreSQL is connected) |
+| `DATABASE_URL` | Optional PostgreSQL connection string (auto-filled if blueprint is used) |
+| `GEMINI_API_KEY` | Your Google AI Studio Gemini API Key |
+| `AFRICASTALKING_USERNAME` | `sandbox` (or your live AT username) |
+| `AFRICASTALKING_API_KEY` | `atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8` |
+| `AT_API_KEY` | `atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8` |
+| `AFRICASTALKING_SENDER_ID`| `NetworkChk` |
+| `JWT_SECRET` | Any strong 32+ character random string |
+| `NDPR_SALT` | Any strong cryptographic salt string |
+
+### Step 3: Health Checks
+Under **Advanced Settings**:
+- **Health Check Path:** `/health`
+
+---
+
+## 📡 Configuring Africa's Talking Webhooks on Render
+
+Once your service is deployed, your URL will look like:
+`https://networkcheck-xxxx.onrender.com`
+
+Configure the callback URLs in your **Africa's Talking Dashboard**:
+
+1. **USSD Callback URL:**
+   - URL: `https://networkcheck-xxxx.onrender.com/ussd/webhook`
+   - Method: `POST`
+   - Test in AT Sandbox by dialing your channel code (e.g. `*384*22020#`).
+
+2. **Incoming SMS Callback URL:**
+   - URL: `https://networkcheck-xxxx.onrender.com/sms/webhook`
+   - Method: `POST`
+   - Test by texting keywords like `CHECK KADUNA` or `BANK` to shortcode `22020`.
+
+3. **SMS Delivery Report Callback URL:**
+   - URL: `https://networkcheck-xxxx.onrender.com/delivery-reports`
+   - Method: `POST`
+
+---
+
+## 🏥 Verification & Health Check
+
+After deployment, check your live service:
+
+- **Web Dashboard:** `https://networkcheck-xxxx.onrender.com/`
+- **Health Status:** `https://networkcheck-xxxx.onrender.com/health`
+- **API Status:** `https://networkcheck-xxxx.onrender.com/api/states`
+
+The `/health` endpoint will return a 200 OK JSON payload:
+```json
+{
+  "status": "ok",
+  "service": "networkcheck",
+  "version": "1.0.0-hackathon-prod",
+  "demoMode": true,
+  "database": {
+    "type": "in-memory",
+    "connected": true,
+    "records": {
+      "states": 5,
+      "lgas": 23,
+      "baselines": 92,
+      "reports": 15
+    }
+  },
+  "timestamp": "2026-09-24T12:00:00.000Z"
+}
+```
+
+---
+
+## 💡 Render Free Tier Sleep & Keep-Alive
+
+On Render's Free tier, web services spin down after 15 minutes of inactivity. For hackathons and production pilots:
+1. The service automatically spins up within ~30–50 seconds on the first request.
+2. For 24/7 instant USSD response without delay, upgrade to Render's **Starter** tier ($7/month) or use a free uptime monitoring ping (e.g. UptimeRobot or cron) hitting `/health` every 10 minutes.
