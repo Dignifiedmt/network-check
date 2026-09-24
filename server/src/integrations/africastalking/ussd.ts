@@ -40,7 +40,7 @@ export async function handleUssdRequest(payload: UssdCallbackPayload): Promise<s
 
     // EXIT OPTION
     if (rootChoice === '0') {
-      return 'END Thank you for using NetworkCheck. Dial *384*22020# anytime or SMS 22020.';
+      return 'END Thank you for using NetworkCheck. Dial *384*20220# anytime or SMS 22220.';
     }
 
     // -------------------------------------------------------------
@@ -435,7 +435,7 @@ export async function handleUssdRequest(payload: UssdCallbackPayload): Promise<s
             `WORKING (Instant NIP): ${working}`,
             `SLOW (Delays): ${slow || 'None'}`,
             'Check transfer & POS status before paying.',
-            'Dial *384*22020# anytime or SMS BANK to 22020.',
+            'Dial *384*20220# anytime or SMS BANK to 22220.',
           ].join('\n');
 
           await smsService.sendSms({
@@ -610,7 +610,7 @@ export async function handleUssdRequest(payload: UssdCallbackPayload): Promise<s
     if (rootChoice === '6') {
       return [
         'END NetworkCheck Help:',
-        'Dial *384*22020# or SMS 22020 to check mobile & bank connectivity without internet.',
+        'Dial *384*20220# or SMS 22220 to check mobile & bank connectivity without internet.',
         'Data comes from NCC official bulletins, switch monitors & community reports.',
         'No smartphone needed. Free USSD.',
       ].join('\n');

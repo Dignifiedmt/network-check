@@ -69,7 +69,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
         <button
           onClick={onOpenUssd}
           className="flex flex-col items-center justify-center py-1 px-2 text-emerald-800 hover:text-emerald-900 transition min-w-[56px]"
-          title="Dial USSD *384*22020#"
+          title="Dial USSD *384*20220#"
         >
           <div className="w-6 h-6 rounded-full bg-emerald-700 text-white flex items-center justify-center shadow-xs">
             <Phone className="w-3.5 h-3.5" />

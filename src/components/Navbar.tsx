@@ -107,11 +107,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenUssd}
               className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-xs transition"
-              title="Launch Feature Phone Simulator (*384*22020#)"
+              title="Launch Feature Phone Simulator (*384*20220#)"
             >
               <Phone className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Dial *384*22020#</span>
-              <span className="sm:hidden">*384*22020#</span>
+              <span className="hidden sm:inline">Dial *384*20220#</span>
+              <span className="sm:hidden">*384*20220#</span>
             </button>
 
             <button
@@ -192,7 +192,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-700 text-white rounded-lg text-sm font-bold shadow-xs hover:bg-emerald-800 transition"
             >
               <Phone className="w-4 h-4" />
-              <span>Dial *384*22020# (USSD)</span>
+              <span>Dial *384*20220# (USSD)</span>
             </button>
             <button
               onClick={() => {
@@ -202,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center justify-center gap-2 w-full py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg text-sm font-semibold transition border border-slate-200"
             >
               <Mail className="w-4 h-4 text-emerald-600" />
-              <span>SMS Gateway (Shortcode 22020)</span>
+              <span>SMS Gateway (Shortcode 22220)</span>
             </button>
           </div>
         </div>

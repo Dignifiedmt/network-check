@@ -214,7 +214,7 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
               Mobile &amp; Feature Phone Hub
             </span>
             <span className="text-[11px] text-slate-300 font-medium">
-              Zero Data Balance &bull; Free USSD &bull; SMS 22020
+              Zero Data Balance &bull; Free USSD &bull; SMS 22220
             </span>
           </div>
 
@@ -259,7 +259,7 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
             </div>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="text-2xl sm:text-3xl font-mono font-extrabold tracking-tight">
-                *384*22020#
+                *384*20220#
               </span>
             </div>
             <p className="text-xs text-emerald-100 mt-1">
@@ -269,7 +269,7 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
 
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <a
-              href="tel:*384*22020%23"
+              href="tel:*384*20220%23"
               className="flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-emerald-900 rounded-xl font-bold text-xs hover:bg-emerald-50 transition shadow-sm"
             >
               <Phone className="w-4 h-4 text-emerald-700" />
@@ -299,7 +299,7 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
             </div>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="text-2xl sm:text-3xl font-mono font-extrabold tracking-tight text-white">
-                SMS to 22020
+                SMS to 22220
               </span>
             </div>
             <p className="text-xs text-slate-300 mt-1">
@@ -309,7 +309,7 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
 
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <a
-              href="sms:22020?body=CHECK%20KADUNA"
+              href="sms:22220?body=CHECK%20KADUNA"
               className="flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-xs hover:bg-blue-700 transition shadow-sm"
             >
               <MessageSquare className="w-4 h-4" />
@@ -317,7 +317,7 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
             </a>
 
             <a
-              href="sms:22020?body=BANK"
+              href="sms:22220?body=BANK"
               className="flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-bold text-xs transition border border-slate-700"
             >
               <Landmark className="w-4 h-4 text-emerald-400" />
@@ -673,12 +673,12 @@ export const MobileHubPage: React.FC<MobileHubPageProps> = ({
                 Feature Phone (Zero Balance) SMS Guide
               </h3>
               <p className="text-xs text-slate-400">
-                Text these keywords to shortcode <strong>22020</strong> on any phone
+                Text these keywords to shortcode <strong>22220</strong> on any phone
               </p>
             </div>
           </div>
           <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-800/60">
-            22020
+            22220
           </span>
         </div>
 

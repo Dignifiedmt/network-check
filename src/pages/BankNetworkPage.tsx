@@ -142,8 +142,8 @@ export const BankNetworkPage: React.FC<BankNetworkPageProps> = ({ onOpenUssd }) 
               className="flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition shrink-0"
             >
               <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="hidden sm:inline">USSD Dial (*384*22020#)</span>
-              <span className="sm:hidden">*384*22020#</span>
+              <span className="hidden sm:inline">USSD Dial (*384*20220#)</span>
+              <span className="sm:hidden">*384*20220#</span>
             </button>
           )}
 
@@ -219,7 +219,7 @@ export const BankNetworkPage: React.FC<BankNetworkPageProps> = ({ onOpenUssd }) 
           </div>
           <p className="text-slate-700 leading-relaxed">
             Before sending large transfers or swiping customer ATM cards, confirm that both the sender and recipient banks show <strong>Network Working (Green)</strong>.
-            If a bank is in <strong>Slow / Delays (Yellow)</strong>, transactions may be debited but take 1–2 hours to reflect. Dial <code className="bg-emerald-100 px-1 py-0.5 rounded font-mono font-bold text-emerald-900">*384*22020#</code> or SMS <code className="bg-emerald-100 px-1 py-0.5 rounded font-mono font-bold text-emerald-900">BANK</code> to <code className="bg-emerald-100 px-1 py-0.5 rounded font-mono font-bold text-emerald-900">22020</code> on any phone to check bank network offline!
+            If a bank is in <strong>Slow / Delays (Yellow)</strong>, transactions may be debited but take 1–2 hours to reflect. Dial <code className="bg-emerald-100 px-1 py-0.5 rounded font-mono font-bold text-emerald-900">*384*20220#</code> or SMS <code className="bg-emerald-100 px-1 py-0.5 rounded font-mono font-bold text-emerald-900">BANK</code> to <code className="bg-emerald-100 px-1 py-0.5 rounded font-mono font-bold text-emerald-900">22220</code> on any phone to check bank network offline!
           </p>
         </div>
       </div>

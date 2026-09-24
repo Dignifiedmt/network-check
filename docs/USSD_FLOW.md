@@ -1,4 +1,4 @@
-# USSD Menu Flow Specification (`*384*244#`)
+# USSD Menu Flow Specification (`*384*20220#`)
 
 The NetworkCheck USSD gateway is engineered according to Africa's Talking session standards and optimized for sub-10-second feature phone timeouts.
 
@@ -7,7 +7,7 @@ The NetworkCheck USSD gateway is engineered according to Africa's Talking sessio
 ## 1. Flow Diagram
 
 ```
-[Dial *384*244#]
+[Dial *384*20220#]
        │
        ▼
  [Main Menu]

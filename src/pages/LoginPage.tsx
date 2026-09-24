@@ -91,14 +91,34 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           </button>
         </form>
 
-        {/* Quick Demo Credentials Helper */}
-        <div className="pt-4 border-t border-slate-100">
+        {/* Pre-Configured Administrator Credentials Callout */}
+        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-2">
+          <div className="flex items-center justify-between text-xs text-emerald-900 font-bold">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-700" />
+              Default Admin Credentials (Render / Production)
+            </span>
+            <span className="text-[10px] bg-emerald-200/80 px-2 py-0.5 rounded-full font-mono">
+              Ready
+            </span>
+          </div>
+          <div className="bg-white/90 p-2.5 rounded-xl border border-emerald-200/80 font-mono text-xs space-y-1 text-slate-800">
+            <div className="flex justify-between">
+              <span className="text-slate-500 font-sans">Email:</span>
+              <span className="font-bold text-emerald-950">admin@networkcheck.ng</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500 font-sans">Password:</span>
+              <span className="font-bold text-emerald-950">admin_secure_password_2026</span>
+            </div>
+          </div>
           <button
             onClick={handleUseDemoCreds}
             type="button"
-            className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition"
+            className="w-full py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5"
           >
-            Fill Pre-Configured Demo Credentials
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>Fill Credentials</span>
           </button>
         </div>
 

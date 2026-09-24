@@ -140,7 +140,7 @@ export const DataSourcesPage: React.FC = () => {
             Citizen Privacy &amp; Phone Number Hashing (NDPR Standard)
           </h4>
           <p className="text-slate-600 leading-relaxed">
-            In compliance with the Nigeria Data Protection Act (NDPA) and NDPR, raw phone numbers dialed on USSD (*384*22020#) or received via SMS (22020) are never persisted in cleartext. Each incoming MSISDN is passed through a cryptographically salted HMAC SHA-256 pipeline, yielding a deterministic hash that lets the system detect duplicate spam without maintaining a surveillance log of citizen identities.
+            In compliance with the Nigeria Data Protection Act (NDPA) and NDPR, raw phone numbers dialed on USSD (*384*20220#) or received via SMS (22220) are never persisted in cleartext. Each incoming MSISDN is passed through a cryptographically salted HMAC SHA-256 pipeline, yielding a deterministic hash that lets the system detect duplicate spam without maintaining a surveillance log of citizen identities.
           </p>
         </div>
       </div>

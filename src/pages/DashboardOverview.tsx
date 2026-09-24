@@ -66,7 +66,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Aggregated real-time citizen reports collected via USSD (*384*22020#) and SMS (22020).
+            Aggregated real-time citizen reports collected via USSD (*384*20220#) and SMS (22220).
           </p>
         </div>
 

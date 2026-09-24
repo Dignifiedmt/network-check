@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
               <span>NetworkCheck Nigeria</span>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed max-w-md">
-              A low-bandwidth connectivity information and community reporting layer that brings verified mobile-network performance data to citizens through USSD (*384*22020#) and SMS (22020) — without needing mobile internet or smartphones.
+              A low-bandwidth connectivity information and community reporting layer that brings verified mobile-network performance data to citizens through USSD (*384*20220#) and SMS (22220) — without needing mobile internet or smartphones.
             </p>
             <div className="flex items-center gap-2 pt-1 text-emerald-400 text-xs">
               <ShieldCheck className="w-4 h-4" />
@@ -31,9 +31,9 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li className="flex items-center gap-1.5">
                 <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-slate-300 font-mono">*384*22020# (USSD)</span>
+                <span className="text-slate-300 font-mono">*384*20220# (USSD)</span>
               </li>
-              <li>SMS Shortcode: <strong className="text-slate-300 font-mono">22020</strong></li>
+              <li>SMS Shortcode: <strong className="text-slate-300 font-mono">22220</strong></li>
               <li>Target Focus: <span className="text-slate-300">Kaduna State (23 LGAs)</span></li>
               <li>National Scope: <span className="text-slate-300">All 36 States + FCT</span></li>
             </ul>

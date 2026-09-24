@@ -101,8 +101,8 @@ class AfricaTalkingSmsService {
       mode,
       username: this.username,
       senderId: this.senderId || (this.username === 'sandbox' ? 'Default Sandbox' : 'None specified'),
-      shortCode: '22020',
-      ussdServiceCode: '*384*22020#',
+      shortCode: (process.env.AT_SMS_SHORT_CODE || '22220').trim(),
+      ussdServiceCode: (process.env.AT_USSD_SERVICE_CODE || '*384*20220#').trim(),
       hasApiKey: isConfigured,
       webhooks: {
         ussdUrl: `${baseUrl}/api/ussd/webhook`,
@@ -314,7 +314,7 @@ class AfricaTalkingSmsService {
         `WORKING (Instant NIP): ${working}`,
         `SLOW/DELAYS: ${slow || 'None reported'}`,
         'Check transfer & POS status before paying.',
-        'Dial *384*22020# anytime or SMS BANK to 22020.',
+        'Dial *384*20220# anytime or SMS BANK to 22220.',
       ].join('\n');
     } else if (upper.startsWith('REPORT')) {
       action = 'community_report';
@@ -337,7 +337,7 @@ class AfricaTalkingSmsService {
         'NetworkCheck: Problem logged.',
         `Tracking Ref: ${ref}`,
         'Thank you for alerting your community!',
-        'Dial *384*22020# or SMS 22020 for updates.',
+        'Dial *384*20220# or SMS 22220 for updates.',
       ].join('\n');
     } else {
       // Check if matches an LGA in the database
@@ -357,11 +357,11 @@ class AfricaTalkingSmsService {
       } else {
         action = 'help';
         replyText = [
-          'NetworkCheck Connectivity Service (Shortcode 22020):',
-          '• SMS LGA name (e.g. CHIKUN or ZARIA) to 22020.',
-          '• SMS BANK to 22020 for live bank transfer & POS status.',
-          '• SMS REPORT <OPERATOR> <ISSUE> to 22020.',
-          '• Dial *384*22020# for free USSD interactive menu.',
+          'NetworkCheck Connectivity Service (Shortcode 22220):',
+          '• SMS LGA name (e.g. CHIKUN or ZARIA) to 22220.',
+          '• SMS BANK to 22220 for live bank transfer & POS status.',
+          '• SMS REPORT <OPERATOR> <ISSUE> to 22220.',
+          '• Dial *384*20220# for free USSD interactive menu.',
         ].join('\n');
       }
     }
@@ -390,7 +390,7 @@ class AfricaTalkingSmsService {
       `NetworkCheck: ${lgaName} LGA`,
       ...comparisons.map(c => `${c.operatorCode}: Voice ${c.voice}, Data ${c.data}`),
       `Source: ${sourceInfo}`,
-      `Dial *384*22020# or SMS 22020 for updates.`,
+      `Dial *384*20220# or SMS 22220 for updates.`,
     ];
     return lines.join('\n');
   }

@@ -211,7 +211,7 @@ export function generateNccCompliancePdf(
   doc.setFont('helvetica', 'bold');
   doc.text('Data Collection Method:', 125, yPos + 18);
   doc.setFont('helvetica', 'normal');
-  doc.text('USSD (*384*22020#) & SMS 22020', 158, yPos + 18);
+  doc.text('USSD (*384*20220#) & SMS 22220', 158, yPos + 18);
 
   doc.setFont('helvetica', 'bold');
   doc.text('Total Submissions:', 125, yPos + 24);
@@ -390,7 +390,7 @@ export function generateNccCompliancePdf(
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
   doc.text(
-    'I hereby certify that this dossier accurately represents community-reported connectivity telemetry collected via toll-free USSD (*384*22020#) and SMS (22020). All personal identifier data (MSISDN) has been anonymized via HMAC SHA-256 hashing in strict compliance with the Nigeria Data Protection Act (NDPA) and NDPR standards.',
+    'I hereby certify that this dossier accurately represents community-reported connectivity telemetry collected via toll-free USSD (*384*20220#) and SMS (22220). All personal identifier data (MSISDN) has been anonymized via HMAC SHA-256 hashing in strict compliance with the Nigeria Data Protection Act (NDPA) and NDPR standards.',
     16,
     yPos + 11,
     { maxWidth: pageWidth - 32 }

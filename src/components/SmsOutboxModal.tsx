@@ -76,7 +76,7 @@ export const SmsOutboxModal: React.FC<SmsOutboxModalProps> = ({ isOpen, onClose 
             <div className="text-center py-12 text-slate-500">
               <Mail className="w-12 h-12 text-slate-300 mx-auto mb-3" />
               <p className="font-medium text-slate-700">No SMS logged yet.</p>
-              <p className="text-xs mt-1">Dial *384*22020# or send an SMS to 22020 to view transactions.</p>
+              <p className="text-xs mt-1">Dial *384*20220# or send an SMS to 22220 to view transactions.</p>
             </div>
           ) : (
             <div className="space-y-3">

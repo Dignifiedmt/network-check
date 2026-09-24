@@ -7,7 +7,7 @@ NetworkCheck implements a zero-fabrication policy. All displayed results are map
 | Source Type | Description | Display Badge |
 |---|---|---|
 | **Official** | Imported directly from Nigerian Communications Commission (NCC) published Quality of Service (QoS) drive-test bulletins and operator compliance reports. | `Source: Official NCC dataset` |
-| **Community** | Crowd-sourced citizen problem submissions recorded via USSD (`*384*244#`) and SMS. Always indicates sample count. | `Source: Community reports (Based on N reports)` |
+| **Community** | Crowd-sourced citizen problem submissions recorded via USSD (`*384*20220#`) and SMS (`22220`). Always indicates sample count. | `Source: Community reports (Based on N reports)` |
 | **Demo / Test** | Synthetic fixture data used during development and hackathon testing. Never conflated with real measurements. | `DEMO DATA — not real network measurements` |
 
 ---

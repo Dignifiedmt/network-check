@@ -24,15 +24,28 @@ services:
       # Africa's Talking Telecom Credentials (Set in Render Dashboard)
       - key: AFRICASTALKING_USERNAME
         value: sandbox
+      - key: AT_USERNAME
+        value: sandbox
       - key: AFRICASTALKING_API_KEY
         value: atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8
       - key: AT_API_KEY
         value: atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8
+      - key: AT_USSD_SERVICE_CODE
+        value: "*384*20220#"
+      - key: AT_SMS_SHORT_CODE
+        value: "22220"
       - key: AFRICASTALKING_SENDER_ID
+        value: NetworkChk
+      - key: AT_SENDER_ID
         value: NetworkChk
       # Google Gemini API Key for Multilingual NLP
       - key: GEMINI_API_KEY
         sync: false
+      # Administrator Credentials & Security
+      - key: ADMIN_DEFAULT_EMAIL
+        value: admin@networkcheck.ng
+      - key: ADMIN_DEFAULT_PASSWORD
+        value: admin_secure_password_2026
       # Security Keys (Auto-generated on Render)
       - key: JWT_SECRET
         generateValue: true

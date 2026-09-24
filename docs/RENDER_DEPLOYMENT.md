@@ -59,7 +59,11 @@ In the **Environment** tab, add the following variables:
 | `AFRICASTALKING_USERNAME` | `sandbox` (or your live AT username) |
 | `AFRICASTALKING_API_KEY` | `atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8` |
 | `AT_API_KEY` | `atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8` |
+| `AT_USSD_SERVICE_CODE` | `*384*20220#` |
+| `AT_SMS_SHORT_CODE` | `22220` |
 | `AFRICASTALKING_SENDER_ID`| `NetworkChk` |
+| `ADMIN_DEFAULT_EMAIL` | `admin@networkcheck.ng` |
+| `ADMIN_DEFAULT_PASSWORD` | `admin_secure_password_2026` |
 | `JWT_SECRET` | Any strong 32+ character random string |
 | `NDPR_SALT` | Any strong cryptographic salt string |
 
@@ -79,12 +83,12 @@ Configure the callback URLs in your **Africa's Talking Dashboard**:
 1. **USSD Callback URL:**
    - URL: `https://networkcheck-xxxx.onrender.com/ussd/webhook`
    - Method: `POST`
-   - Test in AT Sandbox by dialing your channel code (e.g. `*384*22020#`).
+   - Test in AT Sandbox by dialing your channel code: `*384*20220#`.
 
 2. **Incoming SMS Callback URL:**
    - URL: `https://networkcheck-xxxx.onrender.com/sms/webhook`
    - Method: `POST`
-   - Test by texting keywords like `CHECK KADUNA` or `BANK` to shortcode `22020`.
+   - Test by texting keywords like `CHECK KADUNA` or `BANK` to shortcode `22220`.
 
 3. **SMS Delivery Report Callback URL:**
    - URL: `https://networkcheck-xxxx.onrender.com/delivery-reports`

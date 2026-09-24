@@ -55,7 +55,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
   >([
     {
       type: 'reply',
-      text: 'NetworkCheck SMS Gateway (Shortcode 22020): Ready. Send "BANK" to 22020 for live bank status or an LGA name (e.g. "CHIKUN") for network ratings.',
+      text: 'NetworkCheck SMS Gateway (Shortcode 22220): Ready. Send "BANK" to 22220 for live bank status or an LGA name (e.g. "CHIKUN") for network ratings.',
       time: 'Just now',
     },
   ]);
@@ -134,7 +134,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
         }
       }
     } catch (err: any) {
-      setScreenText('USSD Network Timeout.\nPlease try dialing *384*22020# again.');
+      setScreenText('USSD Network Timeout.\nPlease try dialing *384*20220# again.');
       setIsSessionActive(false);
     } finally {
       setIsLoading(false);
@@ -210,7 +210,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
                 Telecom &amp; Bank Network Simulator
               </h3>
               <p className="text-[10px] sm:text-[11px] text-slate-400">
-                Africa's Talking Gateway (*384*22020# &amp; SMS 22020)
+                Africa's Talking Gateway (*384*20220# &amp; SMS 22220)
               </p>
             </div>
           </div>
@@ -233,7 +233,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
             }`}
           >
             <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-            <span><span className="hidden sm:inline">USSD Dial </span>*384*22020#</span>
+            <span><span className="hidden sm:inline">USSD Dial </span>*384*20220#</span>
           </button>
 
           <button
@@ -245,7 +245,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
             }`}
           >
             <Mail className="w-3.5 h-3.5 shrink-0" />
-            <span>SMS 22020</span>
+            <span>SMS 22220</span>
           </button>
 
           <button
@@ -280,7 +280,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
                     <span className="flex items-center gap-1 font-bold">
                       📶 MTN NG / 2G
                     </span>
-                    <span className="font-bold">*384*22020#</span>
+                    <span className="font-bold">*384*20220#</span>
                     <span>🔋 88%</span>
                   </div>
 
@@ -291,7 +291,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
                         Connecting to USSD Gateway...
                       </div>
                     ) : (
-                      screenText || 'Dial *384*22020# to begin.'
+                      screenText || 'Dial *384*20220# to begin.'
                     )}
                   </div>
 
@@ -591,7 +591,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
                 {/* USSD Webhook */}
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-slate-600">
-                    1. USSD Callback URL (Service Code: *384*22020#)
+                    1. USSD Callback URL (Service Code: *384*20220#)
                   </label>
                   <div className="flex items-center gap-1">
                     <input
@@ -622,7 +622,7 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
                 {/* SMS Webhook */}
                 <div className="space-y-1">
                   <label className="text-[11px] font-bold text-slate-600">
-                    2. Incoming SMS Callback URL (Shortcode: 22020)
+                    2. Incoming SMS Callback URL (Shortcode: 22220)
                   </label>
                   <div className="flex items-center gap-1">
                     <input
@@ -709,27 +709,28 @@ export const UssdSimulatorModal: React.FC<UssdSimulatorModalProps> = ({
                     simulator.africastalking.com:1517
                   </a>
                   , enter your Africa's Talking API key and username, and dial{' '}
-                  <code className="bg-emerald-100 px-1 py-0.5 rounded font-bold text-emerald-900">*384*22020#</code>!
+                  <code className="bg-emerald-100 px-1 py-0.5 rounded font-bold text-emerald-900">*384*20220#</code>!
                 </p>
               </div>
 
-              {/* Railway Environment Variables Card */}
+              {/* Render & Railway Environment Variables Card */}
               <div className="bg-slate-900 text-slate-100 p-4 rounded-xl space-y-2 text-xs">
                 <div className="font-bold text-white text-xs flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Railway Environment Variables</span>
+                  <span>Render &amp; Production Hosting Variables</span>
                 </div>
                 <p className="text-slate-400 text-[11px]">
-                  When hosting on Railway, add these variables in your Railway Project Settings:
+                  Pre-configured in <code className="text-emerald-400">render.yaml</code> Blueprint for 1-click deploy:
                 </p>
                 <div className="bg-slate-950 p-2.5 rounded font-mono text-[11px] text-emerald-400 overflow-x-auto space-y-1">
                   <div>NODE_ENV=production</div>
-                  <div>PORT=3000</div>
-                  <div>AT_USERNAME=your_at_username (or sandbox)</div>
-                  <div>AT_API_KEY=atsk_your_key_here</div>
-                  <div>AT_SENDER_ID=NetCheck (optional)</div>
-                  <div>DEMO_MODE=false</div>
-                  <div>DATABASE_URL=postgresql://... (bound by Railway)</div>
+                  <div>AT_USERNAME=sandbox</div>
+                  <div>AT_API_KEY=atsk_8c2c1c9359de445a9184056ebcdd84bb415f010d44bc1259ac72cbb8b3393cedec034dc8</div>
+                  <div>AT_USSD_SERVICE_CODE=*384*20220#</div>
+                  <div>AT_SMS_SHORT_CODE=22220</div>
+                  <div>ADMIN_DEFAULT_EMAIL=admin@networkcheck.ng</div>
+                  <div>ADMIN_DEFAULT_PASSWORD=admin_secure_password_2026</div>
+                  <div>DEMO_MODE=true (or false with live PostgreSQL)</div>
                 </div>
               </div>
             </div>

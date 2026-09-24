@@ -116,7 +116,7 @@ async function runTestSuite() {
     // Step 0: Dial
     const res0 = await handleUssdRequest({
       sessionId: 'test-sess-1',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348031112233',
       text: '',
     });
@@ -126,7 +126,7 @@ async function runTestSuite() {
     // Step 1: Select 1 (Check Area)
     const res1 = await handleUssdRequest({
       sessionId: 'test-sess-1',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348031112233',
       text: '1',
     });
@@ -136,7 +136,7 @@ async function runTestSuite() {
     // Step 2: Select 1 (Kaduna)
     const res2 = await handleUssdRequest({
       sessionId: 'test-sess-1',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348031112233',
       text: '1*1',
     });
@@ -146,7 +146,7 @@ async function runTestSuite() {
     // Step 3: Select 1 (Chikun LGA)
     const res3 = await handleUssdRequest({
       sessionId: 'test-sess-1',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348031112233',
       text: '1*1*1',
     });
@@ -158,7 +158,7 @@ async function runTestSuite() {
     // Step 4: Select 1 (Send SMS)
     const res4 = await handleUssdRequest({
       sessionId: 'test-sess-1',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348031112233',
       text: '1*1*1*1',
     });
@@ -170,7 +170,7 @@ async function runTestSuite() {
     // text: "3*1*2*1*1*1" -> 3 (Report problem) * 1 (MTN) * 2 (Slow Data) * 1 (Now) * 1 (Kaduna) * 1 (Chikun)
     const res = await handleUssdRequest({
       sessionId: 'test-sess-report',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348039998877',
       text: '3*1*2*1*1*1',
     });
@@ -227,7 +227,7 @@ InvalidState,Chikun,MTN,SuperAwesome,Good,Good,NCC Q1,Official,https://ncc.gov.n
   });
 
   // 10. Nigerian Bank Network Telemetry & USSD Inspection
-  await test('Nigerian Bank Networks lookup & USSD flow (*384*22020# -> 4)', async () => {
+  await test('Nigerian Bank Networks lookup & USSD flow (*384*20220# -> 4)', async () => {
     // 10a. DB lookup
     const banks = await db.getBanks();
     assert(banks.length >= 10, 'Should have multiple Nigerian commercial and fintech banks seeded');
@@ -239,7 +239,7 @@ InvalidState,Chikun,MTN,SuperAwesome,Good,Good,NCC Q1,Official,https://ncc.gov.n
     // 10b. USSD Option 4 (Check Bank Networks menu)
     const ussdRes = await handleUssdRequest({
       sessionId: 'test-sess-bank-1',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348039991122',
       text: '4',
     });
@@ -249,7 +249,7 @@ InvalidState,Chikun,MTN,SuperAwesome,Good,Good,NCC Q1,Official,https://ncc.gov.n
     // 10c. USSD Option 4*2 (GTBank inspection)
     const ussdGtbRes = await handleUssdRequest({
       sessionId: 'test-sess-bank-2',
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber: '+2348039991122',
       text: '4*2',
     });
@@ -280,7 +280,7 @@ InvalidState,Chikun,MTN,SuperAwesome,Good,Good,NCC Q1,Official,https://ncc.gov.n
     assert(bankSmsResult.processed === true, 'Incoming SMS should be processed');
     assert(bankSmsResult.action === 'bank_status', 'Should route to bank status action');
     assert(bankSmsResult.replyText.includes('WORKING'), 'Should return active working banks');
-    assert(bankSmsResult.replyText.includes('*384*22020#'), 'Should reference USSD code');
+    assert(bankSmsResult.replyText.includes('*384*20220#'), 'Should reference USSD code');
 
     // 11b. Test "CHIKUN" LGA lookup SMS query
     const lgaSmsResult = await smsService.processIncomingSms({

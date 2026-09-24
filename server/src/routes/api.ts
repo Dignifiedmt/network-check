@@ -439,7 +439,7 @@ apiRouter.post('/ussd/webhook', async (req: Request, res: Response) => {
 
     const responseText = await handleUssdRequest({
       sessionId: sessionId || `local-session-${Date.now()}`,
-      serviceCode: serviceCode || '*384*22020#',
+      serviceCode: serviceCode || process.env.AT_USSD_SERVICE_CODE || '*384*20220#',
       phoneNumber: phoneNumber || '+2348030000000',
       text: text !== undefined ? String(text) : '',
     });

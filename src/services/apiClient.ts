@@ -184,7 +184,7 @@ export async function sendUssdSessionInput(sessionId: string, phoneNumber: strin
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       sessionId,
-      serviceCode: '*384*22020#',
+      serviceCode: '*384*20220#',
       phoneNumber,
       text,
     }),

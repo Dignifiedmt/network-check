@@ -159,7 +159,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 className="w-full sm:w-auto px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center gap-2.5 text-sm"
               >
                 <Phone className="w-4 h-4 text-emerald-200" />
-                <span>Launch Simulator (*384*22020# &amp; SMS 22020)</span>
+                <span>Launch Simulator (*384*20220# &amp; SMS 22220)</span>
               </button>
 
               <button
@@ -206,9 +206,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg mb-4">
                 1
               </div>
-              <h4 className="font-bold text-slate-900 text-base mb-2">Dial *384*22020# or SMS 22020</h4>
+              <h4 className="font-bold text-slate-900 text-base mb-2">Dial *384*20220# or SMS 22220</h4>
               <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Dial the toll-free USSD code on any phone or send an SMS to shortcode 22020 — basic feature phone (torchlight phone) or smartphone. Works even when you have 0.00 data balance.
+                Dial the toll-free USSD code on any phone or send an SMS to shortcode 22220 — basic feature phone (torchlight phone) or smartphone. Works even when you have 0.00 data balance.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
