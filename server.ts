@@ -51,15 +51,15 @@ app.get('/health', (req, res) => {
 app.use('/api', apiRouter);
 
 // USSD & SMS convenience direct routes (for direct Africa's Talking callback URL configuration)
-app.use('/ussd', (req, res, next) => {
+app.all(['/ussd', '/ussd/webhook'], (req, res, next) => {
   req.url = '/ussd/webhook';
   apiRouter(req, res, next);
 });
-app.use('/sms', (req, res, next) => {
+app.all(['/sms', '/sms/webhook'], (req, res, next) => {
   req.url = '/sms/webhook';
   apiRouter(req, res, next);
 });
-app.use('/delivery-reports', (req, res, next) => {
+app.all(['/delivery-reports', '/sms/delivery-reports'], (req, res, next) => {
   req.url = '/sms/delivery-reports';
   apiRouter(req, res, next);
 });

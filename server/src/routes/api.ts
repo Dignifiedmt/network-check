@@ -433,32 +433,42 @@ apiRouter.post('/admin/baselines/import', requireAdminAuth, async (req: Request,
 // 8. AFRICA'S TALKING USSD & SMS INTEGRATION
 // ==========================================
 
-apiRouter.post('/ussd/webhook', async (req: Request, res: Response) => {
+apiRouter.all(['/ussd/webhook', '/ussd'], async (req: Request, res: Response) => {
   try {
-    const { sessionId, serviceCode, phoneNumber, text, networkCode } = req.body;
+    const body = { ...req.query, ...req.body };
+    const sessionId = body.sessionId || `session-${Date.now()}`;
+    const serviceCode = body.serviceCode || process.env.AT_USSD_SERVICE_CODE || '*384*20220#';
+    const phoneNumber = body.phoneNumber || '+2348030000000';
+    const text = body.text !== undefined ? String(body.text) : '';
+
+    console.log(`📱 [USSD Inbound] Method: ${req.method} | Phone: ${maskPhoneNumber(phoneNumber)} | Code: ${serviceCode} | Text: "${text}"`);
 
     const responseText = await handleUssdRequest({
-      sessionId: sessionId || `local-session-${Date.now()}`,
-      serviceCode: serviceCode || process.env.AT_USSD_SERVICE_CODE || '*384*20220#',
-      phoneNumber: phoneNumber || '+2348030000000',
-      text: text !== undefined ? String(text) : '',
+      sessionId,
+      serviceCode,
+      phoneNumber,
+      text,
     });
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.send(responseText);
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.status(200).send(responseText);
   } catch (error: any) {
     console.error('USSD Webhook execution failed:', error);
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.send('END Sorry, NetworkCheck service is momentarily unavailable. Please try again.');
+    res.status(200).send('END Sorry, NetworkCheck service is momentarily unavailable. Please try again.');
   }
 });
 
-apiRouter.post('/sms/webhook', async (req: Request, res: Response) => {
+apiRouter.all(['/sms/webhook', '/sms'], async (req: Request, res: Response) => {
   try {
-    const { from, text, id, to, date, linkId } = req.body;
+    const body = { ...req.query, ...req.body };
+    const { from, text, id, to, date, linkId } = body;
+
+    console.log(`📩 [SMS Inbound] Method: ${req.method} | From: ${maskPhoneNumber(from || '')} | Text: "${text || ''}"`);
 
     if (!from || !text) {
-      return res.status(400).json({ error: 'Missing from or text parameter' });
+      return res.status(200).json({ error: 'Missing from or text parameter', hint: 'Provide from and text in POST or GET body' });
     }
 
     const result = await smsService.processIncomingSms({
@@ -477,15 +487,16 @@ apiRouter.post('/sms/webhook', async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.error('SMS webhook processing failed:', error);
-    res.status(500).json({ error: 'SMS webhook processing failed', details: error.message });
+    res.status(200).json({ error: 'SMS webhook processing failed', details: error.message });
   }
 });
 
-apiRouter.post('/sms/delivery-reports', async (req: Request, res: Response) => {
+apiRouter.all(['/sms/delivery-reports', '/delivery-reports'], async (req: Request, res: Response) => {
   try {
-    const { id, status, phoneNumber, failureReason } = req.body;
+    const body = { ...req.query, ...req.body };
+    const { id, status, phoneNumber } = body;
 
-    console.log(`📨 [SMS Delivery Report] ID: ${id}, Status: ${status}, Phone: ${maskPhoneNumber(phoneNumber)}`);
+    console.log(`📨 [SMS Delivery Report] ID: ${id}, Status: ${status}, Phone: ${maskPhoneNumber(phoneNumber || '')}`);
 
     let normalizedStatus: 'sent' | 'delivered' | 'failed' = 'sent';
     if (status === 'Success' || status === 'Delivered') {
@@ -501,7 +512,7 @@ apiRouter.post('/sms/delivery-reports', async (req: Request, res: Response) => {
     res.status(200).json({ received: true });
   } catch (error: any) {
     console.error('Delivery report webhook error:', error);
-    res.status(500).json({ error: 'Failed to process delivery report' });
+    res.status(200).json({ error: 'Failed to process delivery report' });
   }
 });
 
