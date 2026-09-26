@@ -408,7 +408,7 @@ export const initialBaselines: BaselineRecord[] = [
   },
 ];
 
-// Initial Realistic Community Reports
+// Initial Realistic Community Reports (Updated September 2026)
 export const initialCommunityReports: CommunityReportRecord[] = [
   {
     id: 1,
@@ -419,9 +419,9 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     lga_id: 1, // Chikun
     operator_id: 1, // MTN
     issue_type: 'slow_data',
-    description: 'Internet baya aiki sosai tun safe a Sabon Tasha.',
-    reported_time: 'Today',
-    created_at: '2026-03-23T08:14:22Z',
+    description: 'Internet baya aiki sosai tun safe a Sabon Tasha. Speed test below 0.2 Mbps.',
+    reported_time: 'Today 08:14',
+    created_at: '2026-09-26T08:14:22Z',
     language: 'Hausa',
     ai_category: 'mobile_data',
     ai_severity: 'moderate',
@@ -439,8 +439,8 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     operator_id: 2, // Airtel
     issue_type: 'dropped_calls',
     description: 'Kira yana yankewa duk lokacin da na kira daga Ungwan Rimi.',
-    reported_time: 'Now',
-    created_at: '2026-03-23T09:30:15Z',
+    reported_time: 'Today 09:30',
+    created_at: '2026-09-26T09:30:15Z',
     language: 'Hausa',
     ai_category: 'voice',
     ai_severity: 'moderate',
@@ -458,8 +458,8 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     operator_id: 3, // Glo
     issue_type: 'no_network',
     description: 'Babu network sam a Maraban Rido tun karfe tara na safe.',
-    reported_time: 'Today',
-    created_at: '2026-03-23T10:05:40Z',
+    reported_time: 'Today 10:05',
+    created_at: '2026-09-26T10:05:40Z',
     language: 'Hausa',
     ai_category: 'no_network',
     ai_severity: 'high',
@@ -477,8 +477,8 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     operator_id: 1, // MTN
     issue_type: 'dropped_calls',
     description: 'The MTN network for Barnawa dey drop call every 2 minutes when I dey business talk.',
-    reported_time: 'Today',
-    created_at: '2026-03-23T11:42:00Z',
+    reported_time: 'Yesterday 17:42',
+    created_at: '2026-09-25T17:42:00Z',
     language: 'Nigerian Pidgin',
     ai_category: 'voice',
     ai_severity: 'moderate',
@@ -496,8 +496,8 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     operator_id: 4, // 9mobile
     issue_type: 'slow_data',
     description: 'Data connection dey crawl since yesterday evening for Narayi bypass.',
-    reported_time: 'Yesterday',
-    created_at: '2026-03-22T19:22:11Z',
+    reported_time: 'Yesterday 19:22',
+    created_at: '2026-09-25T19:22:11Z',
     language: 'Nigerian Pidgin',
     ai_category: 'mobile_data',
     ai_severity: 'moderate',
@@ -514,9 +514,9 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     lga_id: 2, // Kaduna North
     operator_id: 2, // Airtel
     issue_type: 'sms_problem',
-    description: 'Bank OTP and USSD confirmation SMS are not delivering since 8 AM today in Kawo.',
-    reported_time: 'Today',
-    created_at: '2026-03-23T12:15:33Z',
+    description: 'Bank OTP and USSD confirmation SMS are taking over 15 minutes to deliver in Kawo.',
+    reported_time: '2 days ago',
+    created_at: '2026-09-24T12:15:33Z',
     language: 'English',
     ai_category: 'sms',
     ai_severity: 'moderate',
@@ -534,11 +534,49 @@ export const initialCommunityReports: CommunityReportRecord[] = [
     operator_id: 1, // MTN
     issue_type: 'call_connect_fail',
     description: 'Calls failing with immediate congestion tone around Samaru market junction.',
-    reported_time: 'Now',
-    created_at: '2026-03-23T13:02:18Z',
+    reported_time: '3 days ago',
+    created_at: '2026-09-23T13:02:18Z',
     language: 'English',
     ai_category: 'voice',
     ai_severity: 'moderate',
+    duplicate_flag: false,
+    status: 'resolved',
+    source: 'Community',
+  },
+  {
+    id: 8,
+    reference: 'NC-10008',
+    phone_hash: '3a7d189e4b5ce2fe28308fd9f2a7baf3ff09f5b084920251ff9b736b42b918aa',
+    phone_masked: '+234 812 *** 5543',
+    state_id: 3, // Abuja FCT
+    lga_id: 11, // Municipal
+    operator_id: 1, // MTN
+    issue_type: 'slow_data',
+    description: 'Underground fiber optic cable repair along Airport Road causing 4G fallback to 3G.',
+    reported_time: 'Today 07:15',
+    created_at: '2026-09-26T07:15:00Z',
+    language: 'English',
+    ai_category: 'mobile_data',
+    ai_severity: 'moderate',
+    duplicate_flag: false,
+    status: 'investigating',
+    source: 'Community',
+  },
+  {
+    id: 9,
+    reference: 'NC-10009',
+    phone_hash: '7b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf99',
+    phone_masked: '+234 807 *** 8891',
+    state_id: 2, // Kano
+    lga_id: 7, // Kano Municipal
+    operator_id: 3, // Glo
+    issue_type: 'no_network',
+    description: 'Babu sabis na Glo sam tun safe a kusa da kasuwar Kurmi.',
+    reported_time: 'Today 08:50',
+    created_at: '2026-09-26T08:50:22Z',
+    language: 'Hausa',
+    ai_category: 'no_network',
+    ai_severity: 'high',
     duplicate_flag: false,
     status: 'received',
     source: 'Community',

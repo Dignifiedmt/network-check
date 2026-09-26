@@ -17,7 +17,10 @@ import {
   Landmark,
   X,
   Radio,
-  ExternalLink,
+  Activity,
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
 } from 'lucide-react';
 import { getAdminToken, clearAdminToken } from '../services/apiClient';
 
@@ -29,7 +32,7 @@ export interface NavItem {
   adminOnly?: boolean;
   badge?: string;
   badgeColor?: string;
-  category: 'core' | 'analytics' | 'system';
+  category: 'core' | 'analytics';
 }
 
 interface SidebarProps {
@@ -89,10 +92,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       id: 'banks',
-      label: 'Bank USSD Codes',
+      label: 'Bank USSD & Core',
       shortLabel: 'Banks',
       icon: Landmark,
-      badge: 'Banking',
+      badge: '24 Banks',
       badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
       category: 'core',
     },
@@ -101,11 +104,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Community Reports',
       shortLabel: 'Reports',
       icon: FileText,
+      badge: '9 Live',
+      badgeColor: 'bg-rose-100 text-rose-800 border-rose-200',
       category: 'core',
     },
     {
       id: 'areas',
-      label: 'Area QoS Analysis',
+      label: 'Area QoS Benchmark',
       shortLabel: 'Areas',
       icon: MapPin,
       category: 'core',
@@ -127,6 +132,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'NCC Baseline QoS',
       shortLabel: 'Baselines',
       icon: Layers,
+      badge: 'NCC 2026',
+      badgeColor: 'bg-slate-100 text-slate-700 border-slate-200',
       category: 'analytics',
     },
     {
@@ -141,23 +148,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Gemini AI Insights',
       shortLabel: 'AI Insights',
       icon: Sparkles,
-      badge: 'AI',
+      badge: 'AI Flash',
       badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
       category: 'analytics',
     },
   ];
 
   const visibleNav = navItems.filter(item => !item.adminOnly || effectiveIsAdmin);
-
   const coreItems = visibleNav.filter(item => item.category === 'core');
   const analyticsItems = visibleNav.filter(item => item.category === 'analytics');
 
   const renderNavGroup = (title: string, items: NavItem[]) => (
-    <div className="mb-4">
+    <div className="mb-3">
       {!collapsed && (
-        <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-          {title}
-        </p>
+        <div className="flex items-center justify-between px-2.5 mb-1.5">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            {title}
+          </span>
+        </div>
       )}
       <div className="space-y-0.5">
         {items.map(item => {
@@ -172,19 +180,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setMobileOpen(false);
               }}
               title={collapsed ? `${item.label} ${item.badge ? `(${item.badge})` : ''}` : undefined}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group relative ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all group relative ${
                 isActive
-                  ? 'bg-emerald-600 text-white font-bold shadow-sm shadow-emerald-700/20'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              } ${collapsed ? 'justify-center px-2' : ''}`}
+                  ? 'bg-emerald-700 text-white font-bold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/90'
+              } ${collapsed ? 'justify-center px-1.5' : ''}`}
             >
               <Icon
-                className={`shrink-0 transition-transform duration-200 ${
+                className={`shrink-0 transition-transform ${
                   collapsed ? 'w-5 h-5' : 'w-4 h-4'
                 } ${
-                  isActive
-                    ? 'text-white'
-                    : 'text-slate-400 group-hover:text-slate-700'
+                  isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-700'
                 }`}
               />
 
@@ -193,9 +199,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <span className="flex-1 text-left truncate">{item.label}</span>
                   {item.badge && (
                     <span
-                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider ${
+                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider shrink-0 ${
                         isActive
-                          ? 'bg-emerald-700/80 text-white border-emerald-500'
+                          ? 'bg-emerald-800/90 text-emerald-100 border-emerald-600'
                           : item.badgeColor || 'bg-slate-100 text-slate-600 border-slate-200'
                       }`}
                     >
@@ -205,7 +211,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </>
               )}
 
-              {/* Floating Tooltip when Collapsed on Desktop */}
+              {/* Floating Tooltip when Collapsed */}
               {collapsed && (
                 <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none items-center gap-1.5">
                   <span>{item.label}</span>
@@ -224,11 +230,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   );
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white border-r border-slate-200/90 shadow-xs select-none">
-      {/* Sidebar Header / Brand */}
+    <div className="flex flex-col h-full select-none">
+      {/* Sidenav Header with Brand & Collapse toggle */}
       <div
-        className={`flex items-center gap-3 p-4 border-b border-slate-200/80 shrink-0 ${
-          collapsed ? 'justify-center p-3' : 'justify-between'
+        className={`flex items-center gap-2 pb-3 mb-2 border-b border-slate-100 shrink-0 ${
+          collapsed ? 'justify-center' : 'justify-between'
         }`}
       >
         <button
@@ -236,28 +242,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
             setCurrentTab('landing');
             setMobileOpen(false);
           }}
-          className={`flex items-center gap-2.5 text-left transition ${
+          className={`flex items-center gap-2 text-left transition ${
             collapsed ? 'justify-center' : ''
           }`}
-          title="NetworkCheck Nigeria"
+          title="NetworkCheck NG Navigation"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center text-white shadow-md shadow-emerald-900/15 shrink-0 ring-2 ring-emerald-500/20">
-            <Signal className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center text-white shadow-xs shrink-0 ring-2 ring-emerald-500/20">
+            <Signal className="w-4 h-4 text-white" />
           </div>
 
           {!collapsed && (
             <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-sm tracking-tight text-slate-900 truncate">
-                  Network<span className="text-emerald-700">Check</span>
-                </span>
-                <span className="text-[9px] bg-slate-100 text-slate-600 font-bold px-1.5 py-0.2 rounded border border-slate-200 uppercase">
-                  NG
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-medium truncate">
-                Telco & Community Intel
-              </p>
+              <span className="font-extrabold text-xs tracking-tight text-slate-900 truncate block">
+                Network<span className="text-emerald-700">Check</span>
+              </span>
+              <span className="text-[10px] text-slate-400 font-medium block truncate">
+                Navigation Hub
+              </span>
             </div>
           )}
         </button>
@@ -265,17 +266,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Mobile close button */}
         <button
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg"
+          className="lg:hidden p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg"
           aria-label="Close menu"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Desktop collapse toggle icon button */}
+        {/* Desktop Collapse Toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="hidden lg:flex p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition"
-          title={collapsed ? 'Expand sidebar (Ctrl+[)' : 'Collapse sidebar (Ctrl+[)'}
+          title={collapsed ? 'Expand side navigation' : 'Collapse side navigation'}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {collapsed ? (
@@ -286,112 +287,167 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      {/* Navigation Links Scrollable Area */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-2 scrollbar-thin scrollbar-thumb-slate-200">
-        {renderNavGroup('Community & Offline', coreItems)}
+      {/* Nav groups */}
+      <div className="flex-1 overflow-y-auto pr-0.5 space-y-1 scrollbar-thin scrollbar-thumb-slate-200">
+        {renderNavGroup('Community & Services', coreItems)}
         {renderNavGroup('QoS & Intelligence', analyticsItems)}
+
+        {/* Live Recent Updates Widget (Expanded view) */}
+        {!collapsed && (
+          <div className="mt-4 pt-3 border-t border-slate-100 space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Activity className="w-3 h-3 text-emerald-600" />
+                <span>Live Recent Intel</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            </div>
+
+            {/* Recent Incident Feed Card */}
+            <div className="p-2.5 bg-slate-50/80 rounded-xl border border-slate-200/80 space-y-2 text-[11px]">
+              <div className="flex items-start gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="min-w-0">
+                  <p className="font-bold text-slate-800 leading-tight truncate">
+                    Chikun / Sabon Tasha
+                  </p>
+                  <p className="text-[10px] text-slate-500 leading-tight">
+                    MTN 4G fiber cut restoration ongoing
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-200/60">
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3 h-3 text-slate-400" />
+                  <span>Today 08:14</span>
+                </span>
+                <span className="text-emerald-700 font-semibold">9 Reports Today</span>
+              </div>
+            </div>
+
+            {/* Quick Network Pulse */}
+            <div className="p-2.5 bg-emerald-50/50 rounded-xl border border-emerald-200/60 text-[11px] space-y-1.5">
+              <div className="flex items-center justify-between font-bold text-slate-800 text-[10px]">
+                <span>Operator Health Pulse</span>
+                <span className="text-emerald-700">NCC Q3 2026</span>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                <div className="flex items-center justify-between bg-white px-2 py-1 rounded border border-emerald-100">
+                  <span className="font-bold text-amber-700">MTN</span>
+                  <span className="text-emerald-700 font-bold">91%</span>
+                </div>
+                <div className="flex items-center justify-between bg-white px-2 py-1 rounded border border-emerald-100">
+                  <span className="font-bold text-rose-600">Airtel</span>
+                  <span className="text-emerald-700 font-bold">86%</span>
+                </div>
+                <div className="flex items-center justify-between bg-white px-2 py-1 rounded border border-emerald-100">
+                  <span className="font-bold text-emerald-700">Glo</span>
+                  <span className="text-slate-600 font-semibold">75%</span>
+                </div>
+                <div className="flex items-center justify-between bg-white px-2 py-1 rounded border border-emerald-100">
+                  <span className="font-bold text-emerald-800">9mobile</span>
+                  <span className="text-slate-600 font-semibold">68%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Bottom Telecom Action Buttons & Account */}
-      <div className="p-3 border-t border-slate-200/80 bg-slate-50/50 space-y-2 shrink-0">
-        {/* USSD Simulator Trigger */}
+      {/* Sidenav Footer Actions */}
+      <div className="pt-3 mt-2 border-t border-slate-100 space-y-1.5 shrink-0">
         <button
           onClick={() => {
             onOpenUssd();
             setMobileOpen(false);
           }}
-          title={collapsed ? 'Dial *384*20220# (USSD Simulator)' : undefined}
-          className={`w-full flex items-center gap-2.5 px-3 py-2.5 bg-gradient-to-r from-emerald-700 to-emerald-800 hover:from-emerald-800 hover:to-emerald-900 text-white rounded-xl text-xs font-bold shadow-sm shadow-emerald-900/10 transition group relative ${
-            collapsed ? 'justify-center px-2' : ''
+          title={collapsed ? 'Dial *384*20220# (Feature Phone Simulator)' : undefined}
+          className={`w-full flex items-center gap-2 px-2.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-xs transition group relative ${
+            collapsed ? 'justify-center px-1' : ''
           }`}
         >
-          <Phone className="w-4 h-4 shrink-0 text-emerald-200 group-hover:scale-110 transition-transform" />
-          {!collapsed && (
-            <span className="truncate">Dial *384*20220#</span>
-          )}
+          <Phone className="w-3.5 h-3.5 shrink-0 text-emerald-200" />
+          {!collapsed && <span className="truncate">Dial *384*20220#</span>}
           {collapsed && (
             <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
-              Dial *384*20220# (Feature Phone Simulator)
+              Dial *384*20220#
             </div>
           )}
         </button>
 
-        {/* SMS Outbox Trigger */}
         <button
           onClick={() => {
             onOpenSms();
             setMobileOpen(false);
           }}
           title={collapsed ? 'SMS Outbox & Gateway Logs' : undefined}
-          className={`w-full flex items-center gap-2.5 px-3 py-2 bg-white hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-semibold border border-slate-200 transition group relative ${
-            collapsed ? 'justify-center px-2' : ''
+          className={`w-full flex items-center gap-2 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold border border-slate-200/80 transition group relative ${
+            collapsed ? 'justify-center px-1' : ''
           }`}
         >
-          <Mail className="w-4 h-4 shrink-0 text-slate-500 group-hover:text-emerald-600 transition-colors" />
-          {!collapsed && (
-            <span className="truncate">SMS Gateway Outbox</span>
-          )}
+          <Mail className="w-3.5 h-3.5 shrink-0 text-slate-500" />
+          {!collapsed && <span className="truncate">SMS Outbox</span>}
           {collapsed && (
             <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
-              SMS Gateway Outbox (22220)
+              SMS Gateway Outbox
             </div>
           )}
         </button>
 
         {/* Admin Login / Logout */}
-        <div className="pt-2 border-t border-slate-200/60">
-          {effectiveIsAdmin ? (
-            <button
-              onClick={handleLogout}
-              title={collapsed ? 'Logout of Admin Session' : undefined}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition group relative ${
-                collapsed ? 'justify-center px-2' : ''
-              }`}
-            >
-              <LogOut className="w-4 h-4 shrink-0 text-rose-500" />
-              {!collapsed && <span>Admin Logout</span>}
-              {collapsed && (
-                <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-rose-950 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
-                  Admin Logout
-                </div>
-              )}
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                setCurrentTab('login');
-                setMobileOpen(false);
-              }}
-              title={collapsed ? 'Admin Login' : undefined}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold ${
-                currentTab === 'login'
-                  ? 'bg-slate-900 text-white font-bold'
-                  : 'text-slate-600 hover:bg-slate-100'
-              } rounded-xl transition group relative ${
-                collapsed ? 'justify-center px-2' : ''
-              }`}
-            >
-              <Lock className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-slate-700" />
-              {!collapsed && <span>Admin Portal</span>}
-              {collapsed && (
-                <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
-                  Admin Portal Login
-                </div>
-              )}
-            </button>
-          )}
-        </div>
+        {effectiveIsAdmin ? (
+          <button
+            onClick={handleLogout}
+            title={collapsed ? 'Logout of Admin Session' : undefined}
+            className={`w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition group relative ${
+              collapsed ? 'justify-center px-1' : ''
+            }`}
+          >
+            <LogOut className="w-3.5 h-3.5 shrink-0 text-rose-500" />
+            {!collapsed && <span>Admin Logout</span>}
+            {collapsed && (
+              <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-rose-950 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
+                Admin Logout
+              </div>
+            )}
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setCurrentTab('login');
+              setMobileOpen(false);
+            }}
+            title={collapsed ? 'Admin Login' : undefined}
+            className={`w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-semibold ${
+              currentTab === 'login'
+                ? 'bg-slate-900 text-white font-bold'
+                : 'text-slate-600 hover:bg-slate-100'
+            } rounded-xl transition group relative ${
+              collapsed ? 'justify-center px-1' : ''
+            }`}
+          >
+            <Lock className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+            {!collapsed && <span>Admin Login</span>}
+            {collapsed && (
+              <div className="hidden lg:group-hover:flex absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-lg shadow-xl whitespace-nowrap z-50 pointer-events-none">
+                Admin Login
+              </div>
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
 
   return (
     <>
-      {/* Desktop Sidenav (Fixed or Sticky) */}
+      {/* Desktop Sidenav Card - Seamlessly integrated INSIDE the main container */}
       <aside
-        className={`hidden lg:block sticky top-0 h-screen shrink-0 z-30 transition-[width] duration-300 ease-in-out ${
+        className={`hidden lg:block shrink-0 transition-all duration-300 ease-in-out sticky top-20 bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3.5 z-20 ${
           collapsed ? 'w-20' : 'w-64'
         }`}
+        style={{ maxHeight: 'calc(100vh - 6rem)' }}
       >
         {sidebarContent}
       </aside>
@@ -406,7 +462,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           />
 
           {/* Drawer Content */}
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-2xl z-10 animate-in slide-in-from-left duration-200">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-2xl z-10 p-4 animate-in slide-in-from-left duration-200">
             {sidebarContent}
           </div>
         </div>

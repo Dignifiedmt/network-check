@@ -76,93 +76,91 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex bg-slate-50 text-slate-900 font-sans selection:bg-emerald-100 selection:text-emerald-900">
-      {/* Desktop Collapsible Sidebar & Mobile Slide-Over Drawer */}
-      <Sidebar
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emerald-100 selection:text-emerald-900 pb-16 lg:pb-0">
+      {/* Top Header Navbar spanning full width */}
+      <Navbar
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
-        collapsed={sidebarCollapsed}
-        setCollapsed={handleToggleSidebar}
-        mobileOpen={mobileSidebarOpen}
-        setMobileOpen={setMobileSidebarOpen}
         onOpenUssd={() => setIsUssdOpen(true)}
         onOpenSms={() => setIsSmsOpen(true)}
         isAdmin={isAdmin}
         onLogout={handleLogout}
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleSidebar={handleToggleSidebar}
+        onOpenMobileSidebar={() => setMobileSidebarOpen(true)}
       />
 
-      {/* Main Viewport Container */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen pb-16 lg:pb-0">
-        {/* Top Header Navbar with Sidebar Collapse Toggle & Breadcrumb */}
-        <Navbar
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-          onOpenUssd={() => setIsUssdOpen(true)}
-          onOpenSms={() => setIsSmsOpen(true)}
-          isAdmin={isAdmin}
-          onLogout={handleLogout}
-          sidebarCollapsed={sidebarCollapsed}
-          onToggleSidebar={handleToggleSidebar}
-          onOpenMobileSidebar={() => setMobileSidebarOpen(true)}
-        />
+      {/* Main Design Container: Sidenav + Page Content enclosed inside max-w-7xl */}
+      <div className="container mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6 max-w-7xl flex-1 flex flex-col">
+        <div className="flex flex-col lg:flex-row gap-6 items-start flex-1 w-full">
+          {/* Collapsible Sidenav Panel inside the main design container */}
+          <Sidebar
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTab}
+            collapsed={sidebarCollapsed}
+            setCollapsed={handleToggleSidebar}
+            mobileOpen={mobileSidebarOpen}
+            setMobileOpen={setMobileSidebarOpen}
+            onOpenUssd={() => setIsUssdOpen(true)}
+            onOpenSms={() => setIsSmsOpen(true)}
+            isAdmin={isAdmin}
+            onLogout={handleLogout}
+          />
 
-        {/* Content Area */}
-        <main className="flex-1">
-          {currentTab === 'landing' && (
-            <LandingPage
-              onExploreDashboard={() => setCurrentTab('dashboard')}
-              onOpenUssd={() => setIsUssdOpen(true)}
-              onOpenSms={() => setIsSmsOpen(true)}
-              isAdmin={isAdmin}
-            />
-          )}
+          {/* Main Viewport Content Area */}
+          <main className="flex-1 min-w-0 w-full">
+            {currentTab === 'landing' && (
+              <LandingPage
+                onExploreDashboard={() => setCurrentTab('dashboard')}
+                onOpenUssd={() => setIsUssdOpen(true)}
+                onOpenSms={() => setIsSmsOpen(true)}
+                isAdmin={isAdmin}
+              />
+            )}
 
-          {currentTab !== 'landing' && (
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-7xl">
-              {currentTab === 'dashboard' && (
-                <DashboardOverview
-                  onNavigateReports={() => setCurrentTab('reports')}
-                  onOpenUssd={() => setIsUssdOpen(true)}
-                  isAdmin={isAdmin}
-                  onAdminLoginSuccess={() => setIsAdmin(true)}
-                  onNavigateHome={() => setCurrentTab('landing')}
-                />
-              )}
+            {currentTab === 'dashboard' && (
+              <DashboardOverview
+                onNavigateReports={() => setCurrentTab('reports')}
+                onOpenUssd={() => setIsUssdOpen(true)}
+                isAdmin={isAdmin}
+                onAdminLoginSuccess={() => setIsAdmin(true)}
+                onNavigateHome={() => setCurrentTab('landing')}
+              />
+            )}
 
-              {currentTab === 'mobile-users' && (
-                <MobileHubPage
-                  onOpenUssd={() => setIsUssdOpen(true)}
-                  onOpenSms={() => setIsSmsOpen(true)}
-                  onNavigateTab={(tab) => setCurrentTab(tab)}
-                />
-              )}
+            {currentTab === 'mobile-users' && (
+              <MobileHubPage
+                onOpenUssd={() => setIsUssdOpen(true)}
+                onOpenSms={() => setIsSmsOpen(true)}
+                onNavigateTab={(tab) => setCurrentTab(tab)}
+              />
+            )}
 
-              {currentTab === 'banks' && (
-                <BankNetworkPage onOpenUssd={() => setIsUssdOpen(true)} />
-              )}
+            {currentTab === 'banks' && (
+              <BankNetworkPage onOpenUssd={() => setIsUssdOpen(true)} />
+            )}
 
-              {currentTab === 'reports' && <ReportsPage />}
+            {currentTab === 'reports' && <ReportsPage />}
 
-              {currentTab === 'areas' && <AreaAnalysisPage />}
+            {currentTab === 'areas' && <AreaAnalysisPage />}
 
-              {currentTab === 'baselines' && <BaselinesPage />}
+            {currentTab === 'baselines' && <BaselinesPage />}
 
-              {currentTab === 'sources' && <DataSourcesPage />}
+            {currentTab === 'sources' && <DataSourcesPage />}
 
-              {currentTab === 'ai-insights' && <AiInsightsPage />}
+            {currentTab === 'ai-insights' && <AiInsightsPage />}
 
-              {currentTab === 'login' && (
-                <LoginPage onLoginSuccess={handleLoginSuccess} />
-              )}
-            </div>
-          )}
-        </main>
-
-        {/* Footer */}
-        <Footer />
+            {currentTab === 'login' && (
+              <LoginPage onLoginSuccess={handleLoginSuccess} />
+            )}
+          </main>
+        </div>
       </div>
 
-      {/* Mobile Bottom Navigation (Visible on screen < lg) */}
+      {/* Footer */}
+      <Footer />
+
+      {/* Mobile Bottom Navigation (screens < lg) */}
       <BottomNav
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -175,7 +173,7 @@ export default function App() {
         isOpen={isUssdOpen}
         onClose={() => setIsUssdOpen(false)}
         onReportSubmitted={() => {
-          // Refresh reports if needed
+          // If on dashboard, let it show
         }}
         onOpenSmsOutbox={() => {
           setIsUssdOpen(false);
